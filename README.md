@@ -66,6 +66,18 @@ public void delete(AgentAccountDTO dto);
 
 계정 정보를 AgentAccount Table에서 삭제합니다.
 
+#### isKey
+```java
+public boolean isKey(AgentAccountDTO dto);
+```
+
+사용하려는 key가 AgentAccount Table에 존재하는지 확인합니다.
+
+반환값
+
+* 동일한 key가 존재하는 경우: true
+* 사용하려는 key가 Table 내에 유일한 경우: false
+
 #
 ### UserSiteInformationDAO.java
 
@@ -128,4 +140,16 @@ public void delete(UserSiteInformationDTO dto);
 ```
 
 웹 사이트 정보를 UserSiteInformation Table에서 삭제합니다.
+
+#### isKey
+```java
+public boolean isKey(UserSiteInformationDTO dto);
+```
+
+사용하려는 key가 UserSiteInformation Table에 존재하는지 확인합니다.
+
+반환값
+
+* 동일한 key가 존재하는 경우: true
+* 사용하려는 key가 Table 내에 유일한 경우: false
 
