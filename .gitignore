@@ -109,6 +109,9 @@ buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
 
+<<<<<<< HEAD
 # written by ahyun
 */$CACHE_FILE$
 *.xml
+=======
+>>>>>>> de9634e96ff6b1ec3722f60f63f2135d931f44fe

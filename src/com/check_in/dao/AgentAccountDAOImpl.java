@@ -118,6 +118,35 @@ public class AgentAccountDAOImpl implements AgentAccountDAO {
         return ret;
     }
 
+<<<<<<< HEAD
+=======
+    public synchronized int updatePW(AgentAccountDTO dto) throws SQLException, ClassNotFoundException {
+        int cnt = existAccount(dto);  // 변경할 데이터 존재 여부 확인
+
+        if(cnt == 0)
+            return 0;
+
+        AgentAccountDTO origin = read(dto);  // 변경 사항 유무 확인
+        if(origin.getAgentPW().equals(dto.getAgentPW())) {
+            return 0;
+        }
+
+        con = mdbc.getConnection();
+        query = new StringBuffer();
+
+        query.append("UPDATE AgentAccount SET Password = ? WHERE ID = ?");
+
+        pstmt = con.prepareStatement(query.toString());
+        pstmt.setString(1, dto.getAgentPW());
+        pstmt.setString(2, dto.getAgentID());
+
+        pstmt.executeUpdate();
+        disconnect();
+
+        return 1;
+    }
+
+>>>>>>> de9634e96ff6b1ec3722f60f63f2135d931f44fe
     public void delete(AgentAccountDTO dto) throws SQLException, ClassNotFoundException {
         con = mdbc.getConnection();
         query = new StringBuffer();
@@ -139,7 +168,11 @@ public class AgentAccountDAOImpl implements AgentAccountDAO {
             return false;
     }
 
+<<<<<<< HEAD
     private void disconnect() throws SQLException {
+=======
+    public void disconnect() throws SQLException {
+>>>>>>> de9634e96ff6b1ec3722f60f63f2135d931f44fe
         if(rs != null) {
             rs.close();
         }

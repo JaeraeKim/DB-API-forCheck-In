@@ -187,7 +187,11 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
         return ret;
     }
 
+<<<<<<< HEAD
     private void disconnect() throws SQLException {
+=======
+    public void disconnect() throws SQLException {
+>>>>>>> de9634e96ff6b1ec3722f60f63f2135d931f44fe
         if(rs != null) {
             rs.close();
         }
