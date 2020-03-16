@@ -45,19 +45,6 @@ AgentAccount Table의 계정 정보를 변경합니다.
 * 일치하는 key가 없거나, 변경 사항이 없는 경우: 0
 * 계정 정보에 대한 변경 사항이 있는 경우: 1
 
-#### updatePW
-
-```java
-public synchronized int updatePW(AgentAccountDTO dto);
-```
-
-계정의 비밀번호를 변경합니다.
-
-반환값
-
-* 일치하는 key가 없거나, 기존 비밀번호와 변경할 비밀번호가 같은 경우: 0
-* 계정 비밀번호에 대한 변경 사항이 있는 경우: 1
-
 #### delete
 
 ```java
@@ -153,3 +140,39 @@ public boolean isKey(UserSiteInformationDTO dto);
 * 동일한 key가 존재하는 경우: true
 * 사용하려는 key가 Table 내에 유일한 경우: false
 
+
+### TokenKeyDAO.java
+
+#### read
+
+```java
+public TokenKeyDTO read(TokenKeyDTO dto);
+```
+
+dto의 agentID를 key로 갖는 token 정보를 반환합니다.
+
+반환값
+
+* 일치하는 key가 없는 경우: null
+* 일치하는 key가 있는 경우: token 정보를 담은 TokenKeyDTO 객체
+
+#### insert
+
+```java
+public synchronized int insert(TokenKeyDTO dto);
+```
+
+새로운 token 정보를 TokenKey Table에 추가합니다.
+
+반환값
+
+* key가 중복인 경우: 0
+* key가 유일한 경우: 1
+
+#### delete
+
+```java
+public void delete(TokenKeyDTO dto);
+```
+
+token 정보를 TokenKey Table에서 삭제합니다.
