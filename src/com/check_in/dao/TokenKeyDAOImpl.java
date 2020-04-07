@@ -33,7 +33,7 @@ public class TokenKeyDAOImpl implements TokenKeyDAO {
 
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("SELECT * FROM TokenKey WHERE ID = ?");
+        query.append("SELECT * FROM TokenKey WHERE agentID = ?");
 
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
@@ -41,8 +41,8 @@ public class TokenKeyDAOImpl implements TokenKeyDAO {
         rs = pstmt.executeQuery();
         TokenKeyDTO ret = new TokenKeyDTO();
         while(rs.next()) {
-            ret.setAgentID(rs.getString("ID"));
-            ret.setToken(rs.getString("Token"));
+            ret.setAgentID(rs.getString("agentID"));
+            ret.setToken(rs.getString("token"));
         }
 
         disconnect();
@@ -72,7 +72,7 @@ public class TokenKeyDAOImpl implements TokenKeyDAO {
     public void delete(TokenKeyDTO dto) throws SQLException, ClassNotFoundException {
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("DELETE FROM TokenKey WHERE ID = ?");
+        query.append("DELETE FROM TokenKey WHERE agentID = ?");
 
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
@@ -93,7 +93,7 @@ public class TokenKeyDAOImpl implements TokenKeyDAO {
     private int existToken (TokenKeyDTO dto) throws SQLException, ClassNotFoundException {
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("SELECT COUNT(*) AS cnt FROM TokenKey WHERE ID = ?");
+        query.append("SELECT COUNT(*) AS cnt FROM TokenKey WHERE agentID = ?");
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
         rs = pstmt.executeQuery();

@@ -13,10 +13,10 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
     private static UserSiteInformationDAOImpl usiDao;
     private MariaDBConnector mdbc = MariaDBConnector.getInstance();
 
-    Connection con;
-    PreparedStatement pstmt;
-    ResultSet rs;
-    StringBuffer query;
+    private Connection con;
+    private PreparedStatement pstmt;
+    private ResultSet rs;
+    private StringBuffer query;
 
     private UserSiteInformationDAOImpl() {}
 
@@ -35,7 +35,7 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
 
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("SELECT * FROM UserSiteInformation WHERE ID = ? AND Name = ?");
+        query.append("SELECT * FROM UserSiteInformation WHERE agentID = ? AND name = ?");
 
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
@@ -44,11 +44,11 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
         rs = pstmt.executeQuery();
         UserSiteInformationDTO ret = new UserSiteInformationDTO();
         while(rs.next()) {
-            ret.setAgentID(rs.getString("ID"));
-            ret.setName(rs.getString("Name"));
+            ret.setAgentID(rs.getString("agentID"));
+            ret.setName(rs.getString("name"));
             ret.setURL(rs.getString("URL"));
-            ret.setID(rs.getString("SiteID"));
-            ret.setPW(rs.getString("SitePassword"));
+            ret.setID(rs.getString("ID"));
+            ret.setPW(rs.getString("PW"));
         }
 
         disconnect();
@@ -63,7 +63,7 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
 
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("SELECT * FROM UserSiteInformation WHERE ID = ?");
+        query.append("SELECT * FROM UserSiteInformation WHERE agentID = ?");
 
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
@@ -72,11 +72,11 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
         List<UserSiteInformationDTO> dtos = new ArrayList<UserSiteInformationDTO>();
         while(rs.next()) {
             UserSiteInformationDTO uto = new UserSiteInformationDTO();
-            uto.setAgentID(rs.getString("ID"));
-            uto.setName(rs.getString("Name"));
+            uto.setAgentID(rs.getString("agentID"));
+            uto.setName(rs.getString("name"));
             uto.setURL(rs.getString("URL"));
-            uto.setID(rs.getString("SiteID"));
-            uto.setPW(rs.getString("SitePassword"));
+            uto.setID(rs.getString("ID"));
+            uto.setPW(rs.getString("PW"));
             dtos.add(uto);
         }
 
@@ -120,7 +120,7 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
 
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("UPDATE UserSiteInformation SET URL = ?, SiteID = ?, SitePassword = ? WHERE ID = ? and Name = ?");
+        query.append("UPDATE UserSiteInformation SET URL = ?, ID = ?, PW = ? WHERE agentID = ? and name = ?");
 
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getURL());
@@ -137,7 +137,7 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
     public void delete(UserSiteInformationDTO dto) throws SQLException, ClassNotFoundException {
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("DELETE FROM UserSiteInformation WHERE ID = ? AND Name = ?");
+        query.append("DELETE FROM UserSiteInformation WHERE agentID = ? AND name = ?");
 
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
@@ -159,7 +159,7 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
     private int existAccount(UserSiteInformationDTO dto) throws SQLException, ClassNotFoundException {
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("SELECT COUNT(*) AS cnt FROM UserSiteInformation WHERE ID = ?");
+        query.append("SELECT COUNT(*) AS cnt FROM UserSiteInformation WHERE agentID = ?");
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
         rs = pstmt.executeQuery();
@@ -174,7 +174,7 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
     private int existKey(UserSiteInformationDTO dto) throws SQLException, ClassNotFoundException {
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("SELECT COUNT(*) AS cnt FROM UserSiteInformation WHERE ID = ? AND Name = ?");
+        query.append("SELECT COUNT(*) AS cnt FROM UserSiteInformation WHERE agentID = ? AND name = ?");
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
         pstmt.setString(2, dto.getName());
@@ -187,11 +187,7 @@ public class UserSiteInformationDAOImpl implements UserSiteInformationDAO {
         return ret;
     }
 
-<<<<<<< HEAD
     private void disconnect() throws SQLException {
-=======
-    public void disconnect() throws SQLException {
->>>>>>> de9634e96ff6b1ec3722f60f63f2135d931f44fe
         if(rs != null) {
             rs.close();
         }

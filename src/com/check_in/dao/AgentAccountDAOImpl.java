@@ -11,10 +11,10 @@ public class AgentAccountDAOImpl implements AgentAccountDAO {
     private static AgentAccountDAOImpl aaDao;
     private MariaDBConnector mdbc = MariaDBConnector.getInstance();
 
-    Connection con;
-    PreparedStatement pstmt;
-    ResultSet rs;
-    StringBuffer query;
+    private Connection con;
+    private PreparedStatement pstmt;
+    private ResultSet rs;
+    private StringBuffer query;
 
     private AgentAccountDAOImpl() {}
 
@@ -33,7 +33,7 @@ public class AgentAccountDAOImpl implements AgentAccountDAO {
 
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("SELECT * FROM AgentAccount WHERE ID = ?");
+        query.append("SELECT * FROM AgentAccount WHERE agentID = ?");
 
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
@@ -41,11 +41,11 @@ public class AgentAccountDAOImpl implements AgentAccountDAO {
         rs = pstmt.executeQuery();
         AgentAccountDTO ret = new AgentAccountDTO();
         while(rs.next()) {
-            ret.setAgentID(rs.getString("ID"));
-            ret.setAgentPW(rs.getString("Password"));
-            ret.setName(rs.getString("Name"));
-            ret.setErrorCount(rs.getInt("ErrorCount"));
-            ret.setNumberOfDevice(rs.getInt("NumberOfDevice"));
+            ret.setAgentID(rs.getString("agentID"));
+            ret.setAgentPW(rs.getString("agentPW"));
+            ret.setName(rs.getString("name"));
+            ret.setErrorCount(rs.getInt("errorCount"));
+            ret.setNumberOfDevice(rs.getInt("numberOfDevice"));
         }
 
         disconnect();
@@ -88,7 +88,7 @@ public class AgentAccountDAOImpl implements AgentAccountDAO {
 
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("UPDATE AgentAccount SET Password = ?, Name = ?, ErrorCount = ?, NumberOfDevice = ? WHERE ID = ?");
+        query.append("UPDATE AgentAccount SET agentPW = ?, name = ?, errorCount = ?, numberOfDevice = ? WHERE agentID = ?");
 
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentPW());
@@ -106,7 +106,7 @@ public class AgentAccountDAOImpl implements AgentAccountDAO {
     private int existAccount(AgentAccountDTO dto) throws SQLException, ClassNotFoundException {
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("SELECT COUNT(*) AS cnt FROM AgentAccount WHERE ID = ?");
+        query.append("SELECT COUNT(*) AS cnt FROM AgentAccount WHERE agentID = ?");
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
         rs = pstmt.executeQuery();
@@ -118,39 +118,10 @@ public class AgentAccountDAOImpl implements AgentAccountDAO {
         return ret;
     }
 
-<<<<<<< HEAD
-=======
-    public synchronized int updatePW(AgentAccountDTO dto) throws SQLException, ClassNotFoundException {
-        int cnt = existAccount(dto);  // 변경할 데이터 존재 여부 확인
-
-        if(cnt == 0)
-            return 0;
-
-        AgentAccountDTO origin = read(dto);  // 변경 사항 유무 확인
-        if(origin.getAgentPW().equals(dto.getAgentPW())) {
-            return 0;
-        }
-
-        con = mdbc.getConnection();
-        query = new StringBuffer();
-
-        query.append("UPDATE AgentAccount SET Password = ? WHERE ID = ?");
-
-        pstmt = con.prepareStatement(query.toString());
-        pstmt.setString(1, dto.getAgentPW());
-        pstmt.setString(2, dto.getAgentID());
-
-        pstmt.executeUpdate();
-        disconnect();
-
-        return 1;
-    }
-
->>>>>>> de9634e96ff6b1ec3722f60f63f2135d931f44fe
     public void delete(AgentAccountDTO dto) throws SQLException, ClassNotFoundException {
         con = mdbc.getConnection();
         query = new StringBuffer();
-        query.append("DELETE FROM AgentAccount WHERE ID = ?");
+        query.append("DELETE FROM AgentAccount WHERE agentID = ?");
 
         pstmt = con.prepareStatement(query.toString());
         pstmt.setString(1, dto.getAgentID());
@@ -168,11 +139,7 @@ public class AgentAccountDAOImpl implements AgentAccountDAO {
             return false;
     }
 
-<<<<<<< HEAD
     private void disconnect() throws SQLException {
-=======
-    public void disconnect() throws SQLException {
->>>>>>> de9634e96ff6b1ec3722f60f63f2135d931f44fe
         if(rs != null) {
             rs.close();
         }
