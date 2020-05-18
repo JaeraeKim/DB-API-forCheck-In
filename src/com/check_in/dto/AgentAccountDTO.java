@@ -7,6 +7,20 @@ public class AgentAccountDTO {
     private int errorCount;
     private int numberOfDevice;
 
+    public AgentAccountDTO (String agentID, String agentPW, String name, int errorCount, int numberOfDevice) {
+        this.agentID = agentID;
+        this.agentPW = agentPW;
+        this.name = name;
+        this.errorCount = errorCount;
+        this.numberOfDevice = numberOfDevice;
+    }
+
+    public AgentAccountDTO () {}
+
+    public String toString() {
+        return agentID  + "|" + agentPW + "|" + name + "|" + errorCount + "|" + numberOfDevice;
+    }
+
     public String getAgentID() {
         return agentID;
     }
